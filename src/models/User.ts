@@ -1,12 +1,11 @@
-import {IgnoreProperty} from "@tsed/common";
-import {Description} from "@tsed/swagger";
+import {Description, Ignore} from "@tsed/common";
 import {UserCreation} from "./UserCreation";
 
 export class User extends UserCreation {
   @Description("Database assigned id")
   _id: string;
 
-  @IgnoreProperty()
+  @Ignore()
   password: string;
 
   verifyPassword(password: string) {
