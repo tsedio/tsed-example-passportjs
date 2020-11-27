@@ -57,7 +57,7 @@
     "@types/passport-local": "^1.0.33",
     "@types/passport-http": "^0.3.8",
     "@types/sinon": "9.0.8",
-    "@types/sinon-chai": "3.2.4",
+    "@types/sinon-chai": "3.2.5",
     "@types/supertest": "2.0.10",
     "@types/cors": "2.8.6",
     "cross-env": "7.0.2",
