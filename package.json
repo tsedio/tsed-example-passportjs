@@ -52,7 +52,7 @@
     "@types/express": "4.17.7",
     "@types/http-proxy": "^1.16.2",
     "@types/mocha": "8.0.3",
-    "@types/node": "14.11.1",
+    "@types/node": "14.14.10",
     "@types/passport": "1.0.4",
     "@types/passport-local": "^1.0.33",
     "@types/passport-http": "^0.3.8",
