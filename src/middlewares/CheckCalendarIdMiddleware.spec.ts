@@ -8,29 +8,27 @@ import {CheckCalendarIdMiddleware} from "./CheckCalendarIdMiddleware";
 
 const sandbox = Sinon.createSandbox();
 describe("CheckCalendarIdMiddleware", () => {
-  const user = new User();
-  user._id = "u1";
-
-  let middleware: CheckCalendarIdMiddleware;
-
   const calendarsService = {
     findOne: sandbox.stub()
   };
 
   beforeEach(async () => {
     await PlatformTest.create();
-    middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
-      {
-        provide: CalendarsService,
-        use: calendarsService
-      }
-    ]);
+
   });
   afterEach(() => PlatformTest.reset());
   afterEach(() => sandbox.reset());
 
   it("should return nothing", async () => {
     // GIVEN
+    const middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
+      {
+        token: CalendarsService,
+        use: calendarsService
+      }
+    ]);
+    const user = new User();
+    user._id = "u1";
     const calendar = new Calendar();
     calendarsService.findOne.resolves(calendar);
     // WHEN
@@ -43,6 +41,12 @@ describe("CheckCalendarIdMiddleware", () => {
 
   it("should throw error", async () => {
     // GIVEN
+    const middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
+      {
+        token: CalendarsService,
+        use: calendarsService
+      }
+    ]);
     const user = new User();
     user._id = "u1";
 

@@ -1,19 +1,15 @@
 import {
-  Authenticated,
   BodyParams,
   Controller,
   Delete,
   Get,
-  MergeParams,
   PathParams,
   Post,
   Put,
-  Required,
-  Status,
-  UseBefore,
-  Returns
+  UseBefore
 } from "@tsed/common";
-import {Authorize} from "@tsed/passport";
+import {Returns, Required} from "@tsed/schema";
+import {Authorize, Authenticate} from "@tsed/passport";
 import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {CalendarCreation} from "../../models/Calendar";
@@ -23,7 +19,6 @@ import {CalendarEventsService} from "../../services/events/CalendarEventsService
 
 
 @Controller("/:calendarId/events")
-@MergeParams(true)
 @UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
   constructor(private calendarEventsService: CalendarEventsService) {
@@ -31,7 +26,7 @@ export class EventsCtrl {
 
   @Get("/:id")
   @Returns(200, Event)
-  @Returns(404, {description: "Event not found"})
+  @Returns(404).Description("Event not found")
   @Authorize("*")
   async get(@Required() @PathParams("calendarId") calendarId: string,
             @PathParams("id") id: string): Promise<Event> {
@@ -54,7 +49,7 @@ export class EventsCtrl {
   }
 
   @Put("/")
-  @Returns(201, {type: Event})
+  @Returns(201, Event)
   @Authorize("*")
   async create(@Required() @PathParams("calendarId") calendarId: string,
                @BodyParams() event: EventCreation): Promise<Event> {
@@ -76,8 +71,8 @@ export class EventsCtrl {
   }
 
   @Delete("/:id")
-  @Authenticated()
-  @Status(204)
+  @Authenticate()
+  @Returns(204)
   @Authorize("*")
   async remove(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string): Promise<Event> {

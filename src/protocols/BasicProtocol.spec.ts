@@ -1,8 +1,8 @@
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {BasicProtocol} from "./BasicProtocol";
-import {PlatformTest} from "@tsed/common";
 
 describe("BasicProtocol", () => {
   beforeEach(() => PlatformTest.create());
@@ -73,7 +73,7 @@ describe("BasicProtocol", () => {
         findOne: Sinon.stub().resolves(undefined)
       };
 
-      const protocol: BasicProtocol = PlatformTest.invoke(BasicProtocol, [
+      const protocol: BasicProtocol = await PlatformTest.invoke(BasicProtocol, [
         {
           token: UsersService,
           use: usersService

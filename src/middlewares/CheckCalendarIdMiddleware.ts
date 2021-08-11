@@ -1,12 +1,14 @@
-import {Middleware, PathParams, Req, Required} from "@tsed/common";
+import {Middleware, PathParams, Req} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
+import {Required} from "@tsed/schema";
+import {Inject} from "@tsed/di";
 import {User} from "../models/User";
 import {CalendarsService} from "../services/calendars/CalendarsService";
 
 @Middleware()
 export class CheckCalendarIdMiddleware {
-  constructor(private calendarsService: CalendarsService) {
-  }
+  @Inject()
+  protected calendarsService: CalendarsService;
 
   async use(@Req("user") user: User, @Required() @PathParams("calendarId") calendarId: string) {
     const calendar = await this.calendarsService.findOne({
