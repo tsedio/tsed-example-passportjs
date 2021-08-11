@@ -1,7 +1,6 @@
 import "@tsed/ajv";
 import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
-import {Configuration} from "@tsed/di";
-import {Inject} from "@tsed/di/src";
+import {Configuration, Inject} from "@tsed/di";
 import "@tsed/passport";
 import "@tsed/platform-express";
 import "@tsed/swagger";
@@ -35,9 +34,9 @@ const rootDir = __dirname;
       PassportCtrl
     ]
   },
-  swagger: {
+  swagger: [{
     path: "/api-docs"
-  },
+  }],
   calendar: {
     token: true
   },

@@ -1,8 +1,8 @@
+import {PlatformTest} from "@tsed/common";
 import * as Sinon from "sinon";
 import {User} from "../models/User";
 import {UsersService} from "../services/users/UsersService";
 import {LoginLocalProtocol} from "./LoginLocalProtocol";
-import {PlatformTest} from "@tsed/common/src";
 
 describe("LoginLocalProtocol", () => {
   beforeEach(() => PlatformTest.create());
