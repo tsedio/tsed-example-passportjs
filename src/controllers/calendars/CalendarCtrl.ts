@@ -48,7 +48,7 @@ export class CalendarCtrl {
   @Authorize("basic")
   async update(@Req("user") user: User,
                @PathParams("id") @Required() id: string,
-               @BodyParams() @Required() calendar: CalendarCreation): Promise<Calendar> {
+               @BodyParams() @Required() calendar: CalendarCreation) {
     await this.get(user, id);
 
     return this.calendarsService.update({_id: id, ...calendar});

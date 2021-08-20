@@ -8,7 +8,7 @@ export class UsersService extends MemoryCollection<User> {
     super(User, require("../../../resources/users.json"));
   }
 
-  findById(id: string): User {
+  findById(id: string) {
     return this.findOne({_id: id});
   }
 }

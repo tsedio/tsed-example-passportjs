@@ -75,7 +75,7 @@ export class EventsCtrl {
   @Returns(204)
   @Authorize("*")
   async remove(@Required() @PathParams("calendarId") calendarId: string,
-               @PathParams("id") id: string): Promise<Event> {
+               @PathParams("id") id: string) {
     if (!await this.calendarEventsService.removeOne({_id: id, calendarId})) {
       throw new NotFound("Event not found");
     }

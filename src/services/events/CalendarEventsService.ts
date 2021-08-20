@@ -8,7 +8,7 @@ export class CalendarEventsService extends MemoryCollection<Event> {
     super(Event, require("../../../resources/events.json"));
   }
 
-  findById(id: string): Event {
+  findById(id: string) {
     return this.findOne({_id: id});
   }
 }
