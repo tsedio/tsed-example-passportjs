@@ -1,15 +1,15 @@
 import "@tsed/ajv";
-import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import "@tsed/passport";
 import "@tsed/platform-express";
 import "@tsed/swagger";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as cors from "cors";
-import * as session from "express-session";
-import * as methodOverride from "method-override";
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import session from "express-session";
+import methodOverride from "method-override";
 import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
 import {PassportCtrl} from "./controllers/passport/PassportCtrl";
 import {User} from "./models/User";
@@ -50,7 +50,6 @@ export class Server {
 
   $beforeRoutesInit(): void | Promise<any> {
     this.app
-      .use(GlobalAcceptMimesMiddleware)
       .use(cors())
       .use(cookieParser())
       .use(compress({}))
@@ -67,11 +66,9 @@ export class Server {
         cookie: {
           path: "/",
           httpOnly: true,
-          secure: false,
-          maxAge: null
+          secure: false
+         // maxAge: null
         }
       }));
-
-    return null;
   }
 }

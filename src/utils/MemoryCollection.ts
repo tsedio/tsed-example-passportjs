@@ -4,7 +4,7 @@ export interface MemoryCollectionID {
   _id: string;
 }
 
-function match(obj, predicate) {
+function match(obj: any, predicate: any) {
   for (const [k, v] of Object.entries(predicate)) {
     if (v !== undefined && obj[k] !== v) {
       return false;
