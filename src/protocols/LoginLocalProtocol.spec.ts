@@ -1,8 +1,21 @@
-import {PlatformTest} from "@tsed/common";
-import * as Sinon from "sinon";
-import {User} from "../models/User";
-import {UsersService} from "../services/users/UsersService";
-import {LoginLocalProtocol} from "./LoginLocalProtocol";
+import { PlatformTest } from "@tsed/common";
+import { User } from "../models/User";
+import { UsersService } from "../services/users/UsersService";
+import { LoginLocalProtocol } from "./LoginLocalProtocol";
+
+async function getProtocolFixture() {
+  const usersService = {
+    findOne: jest.fn()
+  };
+
+  const protocol = await PlatformTest.invoke<LoginLocalProtocol>(LoginLocalProtocol, [
+    {
+      token: UsersService,
+      use: usersService
+    }
+  ]);
+  return { usersService, protocol };
+}
 
 describe("LoginLocalProtocol", () => {
   beforeEach(() => PlatformTest.create());
@@ -18,23 +31,15 @@ describe("LoginLocalProtocol", () => {
       user.email = email;
       user.password = password;
 
-      const usersService = {
-        findOne: Sinon.stub().resolves(user)
-      };
-
-      const protocol: LoginLocalProtocol = await PlatformTest.invoke(LoginLocalProtocol, [
-        {
-          token: UsersService,
-          use: usersService
-        }
-      ]);
+      const { usersService, protocol } = await getProtocolFixture();
+      usersService.findOne.mockResolvedValue(user);
 
       // WHEN
-      const result = await protocol.$onVerify(request as any, {email, password});
+      const result = await protocol.$onVerify(request as any, { email, password });
 
       // THEN
-      usersService.findOne.should.be.calledWithExactly({email: "email@domain.fr"});
-      result.should.deep.equal(user);
+      expect(usersService.findOne).toBeCalledWith({ email: "email@domain.fr" });
+      expect(result).toEqual(user);
     });
     it("should return a user", async () => {
       // GIVEN
@@ -45,23 +50,15 @@ describe("LoginLocalProtocol", () => {
       user.email = email;
       user.password = `${password}2`;
 
-      const usersService = {
-        findOne: Sinon.stub().resolves(user)
-      };
-
-      const protocol: LoginLocalProtocol = await PlatformTest.invoke(LoginLocalProtocol, [
-        {
-          token: UsersService,
-          use: usersService
-        }
-      ]);
+      const { usersService, protocol } = await getProtocolFixture();
+      usersService.findOne.mockResolvedValue(user);
 
       // WHEN
-      const result = await protocol.$onVerify(request as any, {email, password});
+      const result = await protocol.$onVerify(request as any, { email, password });
 
       // THEN
-      usersService.findOne.should.be.calledWithExactly({email: "email@domain.fr"});
-      result.should.deep.equal(false);
+      expect(usersService.findOne).toBeCalledWith({ email: "email@domain.fr" });
+      expect(result).toEqual(false);
     });
     it("should return a false when user isn't found", async () => {
       // GIVEN
@@ -69,23 +66,15 @@ describe("LoginLocalProtocol", () => {
       const email = "email@domain.fr";
       const password = "password";
 
-      const usersService = {
-        findOne: Sinon.stub().resolves(undefined)
-      };
-
-      const protocol: LoginLocalProtocol = await PlatformTest.invoke(LoginLocalProtocol, [
-        {
-          token: UsersService,
-          use: usersService
-        }
-      ]);
+      const { usersService, protocol } = await getProtocolFixture();
+      usersService.findOne.mockResolvedValue(undefined);
 
       // WHEN
-      const result = await protocol.$onVerify(request as any, {email, password});
+      const result = await protocol.$onVerify(request as any, { email, password });
 
       // THEN
-      usersService.findOne.should.be.calledWithExactly({email: "email@domain.fr"});
-      result.should.deep.equal(false);
+      expect(usersService.findOne).toBeCalledWith({ email: "email@domain.fr" });
+      expect(result).toEqual(false);
     });
   });
 });

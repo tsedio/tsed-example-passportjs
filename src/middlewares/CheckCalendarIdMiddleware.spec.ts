@@ -1,56 +1,53 @@
-import {expect} from "chai";
-import {PlatformTest} from "@tsed/common";
-import * as Sinon from "sinon";
-import {Calendar} from "../models/Calendar";
-import {User} from "../models/User";
-import {CalendarsService} from "../services/calendars/CalendarsService";
-import {CheckCalendarIdMiddleware} from "./CheckCalendarIdMiddleware";
+import { PlatformTest } from "@tsed/common";
+import { Calendar } from "../models/Calendar";
+import { User } from "../models/User";
+import { CalendarsService } from "../services/calendars/CalendarsService";
+import { CheckCalendarIdMiddleware } from "./CheckCalendarIdMiddleware";
 
-const sandbox = Sinon.createSandbox();
-describe("CheckCalendarIdMiddleware", () => {
+function getMiddlewareFixture() {
   const calendarsService = {
-    findOne: sandbox.stub()
+    findOne: jest.fn()
   };
+  const middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
+    {
+      token: CalendarsService,
+      use: calendarsService
+    }
+  ]);
 
+  return { calendarsService, middleware };
+}
+
+describe("CheckCalendarIdMiddleware", () => {
   beforeEach(async () => {
     await PlatformTest.create();
-
   });
   afterEach(() => PlatformTest.reset());
-  afterEach(() => sandbox.reset());
 
   it("should return nothing", async () => {
     // GIVEN
-    const middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
-      {
-        token: CalendarsService,
-        use: calendarsService
-      }
-    ]);
     const user = new User();
     user._id = "u1";
     const calendar = new Calendar();
-    calendarsService.findOne.resolves(calendar);
+
+    const { calendarsService, middleware } = getMiddlewareFixture();
+    calendarsService.findOne.mockResolvedValue(calendar);
+
     // WHEN
     const result = await middleware.use(user, "1");
 
     // THEN
-    expect(result).to.equal(undefined);
-    calendarsService.findOne.should.be.calledWithExactly({_id: "1", owner: user._id});
+    expect(result).toBeUndefined();
+    expect(calendarsService.findOne).toBeCalledWith({ _id: "1", owner: user._id });
   });
 
   it("should throw error", async () => {
     // GIVEN
-    const middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
-      {
-        token: CalendarsService,
-        use: calendarsService
-      }
-    ]);
     const user = new User();
     user._id = "u1";
 
-    calendarsService.findOne.resolves(undefined);
+    const { calendarsService, middleware } = getMiddlewareFixture();
+    calendarsService.findOne.mockResolvedValue(undefined);
 
     // WHEN
     let actualError: any;
@@ -61,6 +58,6 @@ describe("CheckCalendarIdMiddleware", () => {
     }
 
     // THEN
-    actualError.message.should.deep.eq("Calendar not found");
+    expect(actualError.message).toEqual("Calendar not found");
   });
 });

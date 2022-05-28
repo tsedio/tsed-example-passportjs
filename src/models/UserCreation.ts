@@ -1,5 +1,5 @@
-import {Required, Description} from "@tsed/schema";
-import {Credentials} from "./Credentials";
+import { Required, Description } from "@tsed/schema";
+import { Credentials } from "./Credentials";
 
 export class UserCreation extends Credentials {
   @Description("User first name")

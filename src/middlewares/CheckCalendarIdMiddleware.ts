@@ -1,9 +1,9 @@
-import {Middleware, PathParams, Req} from "@tsed/common";
-import {NotFound} from "@tsed/exceptions";
-import {Required} from "@tsed/schema";
-import {Inject} from "@tsed/di";
-import {User} from "../models/User";
-import {CalendarsService} from "../services/calendars/CalendarsService";
+import { Middleware, PathParams, Req } from "@tsed/common";
+import { NotFound } from "@tsed/exceptions";
+import { Required } from "@tsed/schema";
+import { Inject } from "@tsed/di";
+import { User } from "../models/User";
+import { CalendarsService } from "../services/calendars/CalendarsService";
 
 @Middleware()
 export class CheckCalendarIdMiddleware {

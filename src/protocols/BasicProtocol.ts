@@ -1,9 +1,10 @@
-import {Req} from "@tsed/common";
-import {Arg, OnInstall, OnVerify, Protocol} from "@tsed/passport";
-import {Strategy} from "passport";
-import {BasicStrategy} from "passport-http";
-import {UsersService} from "../services/users/UsersService";
-import {checkEmail} from "../utils/checkEmail";
+import { Req } from "@tsed/common";
+import { Arg, OnInstall, OnVerify, Protocol } from "@tsed/passport";
+import { Inject } from "@tsed/di";
+import { Strategy } from "passport";
+import { BasicStrategy } from "passport-http";
+import { UsersService } from "../services/users/UsersService";
+import { checkEmail } from "../utils/checkEmail";
 
 @Protocol({
   name: "basic",
@@ -11,13 +12,13 @@ import {checkEmail} from "../utils/checkEmail";
   settings: {}
 })
 export class BasicProtocol implements OnVerify, OnInstall {
-  constructor(private usersService: UsersService) {
-  }
+  @Inject()
+  private usersService: UsersService;
 
   async $onVerify(@Req() request: Req, @Arg(0) username: string, @Arg(1) password: string) {
     checkEmail(username);
 
-    const user = await this.usersService.findOne({email: username});
+    const user = await this.usersService.findOne({ email: username });
 
     if (!user) {
       return false;
@@ -30,6 +31,7 @@ export class BasicProtocol implements OnVerify, OnInstall {
     return user;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   $onInstall(strategy: Strategy): void {
     // intercept the strategy instance to adding extra configuration
   }
