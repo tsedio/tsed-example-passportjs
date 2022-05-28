@@ -1,74 +1,45 @@
+import { Configuration } from "@tsed/di";
+import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/ajv";
-import {PlatformApplication} from "@tsed/common";
-import {Configuration, Inject} from "@tsed/di";
-import "@tsed/passport";
-import "@tsed/platform-express";
 import "@tsed/swagger";
-import bodyParser from "body-parser";
+import "@tsed/passport";
 import compress from "compression";
 import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 import cors from "cors";
 import session from "express-session";
-import methodOverride from "method-override";
-import {CalendarCtrl} from "./controllers/calendars/CalendarCtrl";
-import {PassportCtrl} from "./controllers/passport/PassportCtrl";
-import {User} from "./models/User";
-
-const rootDir = __dirname;
+import { config } from "./config";
+import * as rest from "./controllers/rest";
+import * as pages from "./controllers/pages";
+import "./protocols";
 
 @Configuration({
-  rootDir,
+  ...config,
   acceptMimes: ["application/json"],
-  logger: {
-    debug: false,
-    logRequest: true,
-    requestFields: ["reqId", "method", "url", "headers", "query", "params", "duration"]
-  },
-  componentsScan: [
-    `${rootDir}/services/**/*.ts`,
-    `${rootDir}/protocols/**/*.ts`
-  ],
+  httpPort: process.env.PORT || 8083,
+  httpsPort: false, // CHANGE
+  componentsScan: false,
   mount: {
-    "/rest": [
-      CalendarCtrl,
-      PassportCtrl
-    ]
+    "/rest": [...Object.values(rest)],
+    "/": [...Object.values(pages)]
   },
-  swagger: [{
-    path: "/api-docs"
-  }],
-  calendar: {
-    token: true
-  },
-  passport: {
-    userInfoModel: User
-  }
+  middlewares: [
+    cors(),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    session({
+      secret: "mysecretkey",
+      resave: true,
+      saveUninitialized: true,
+      // maxAge: 36000,
+      cookie: {
+        path: "/",
+        httpOnly: true,
+        secure: false
+        // maxAge: null
+      }
+    })
+  ]
 })
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  $beforeRoutesInit(): void | Promise<any> {
-    this.app
-      .use(cors())
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }))
-      .use(session({
-        secret: "mysecretkey",
-        resave: true,
-        saveUninitialized: true,
-        // maxAge: 36000,
-        cookie: {
-          path: "/",
-          httpOnly: true,
-          secure: false
-         // maxAge: null
-        }
-      }));
-  }
-}
+export class Server {}

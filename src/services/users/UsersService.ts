@@ -1,6 +1,6 @@
-import {Service} from "@tsed/common";
-import {User} from "../../models/User";
-import {MemoryCollection} from "../../utils/MemoryCollection";
+import { Service } from "@tsed/common";
+import { User } from "../../models/User";
+import { MemoryCollection } from "../../utils/MemoryCollection";
 
 @Service()
 export class UsersService extends MemoryCollection<User> {
@@ -9,6 +9,6 @@ export class UsersService extends MemoryCollection<User> {
   }
 
   findById(id: string) {
-    return this.findOne({_id: id});
+    return this.findOne({ _id: id });
   }
 }

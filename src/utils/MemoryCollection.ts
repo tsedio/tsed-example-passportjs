@@ -1,4 +1,4 @@
-import {deepClone, Type} from "@tsed/core";
+import { deepClone, Type } from "@tsed/core";
 
 export interface MemoryCollectionID {
   _id: string;
@@ -28,7 +28,7 @@ export class MemoryCollection<T extends MemoryCollectionID> {
   public create(value: Partial<T>) {
     value._id = require("node-uuid").v4();
 
-    const {model, collection} = this;
+    const { model, collection } = this;
     const instance = createInstance(model, value);
 
     collection.push(instance);
@@ -45,10 +45,7 @@ export class MemoryCollection<T extends MemoryCollectionID> {
       return;
     }
 
-    this.collection[index] = Object.assign(
-      createInstance(this.model, this.collection[index]),
-      value
-    );
+    this.collection[index] = Object.assign(createInstance(this.model, this.collection[index]), value);
 
     return this.collection[index];
   }
@@ -60,30 +57,26 @@ export class MemoryCollection<T extends MemoryCollectionID> {
   }
 
   public findAll(predicate: Partial<T> = {}): T[] {
-    return this
-      .collection
-      .filter((obj) => match(obj, predicate))
-      .map((obj) => createInstance(this.model, obj));
+    return this.collection.filter((obj) => match(obj, predicate)).map((obj) => createInstance(this.model, obj));
   }
 
   public removeOne(predicate: Partial<T>): T | undefined {
     let removedItem: T | undefined;
 
-    this.collection = this.collection
-      .filter((obj) => {
-        if (match(obj, predicate) && !removedItem) {
-          removedItem = obj;
-          return false;
-        }
+    this.collection = this.collection.filter((obj) => {
+      if (match(obj, predicate) && !removedItem) {
+        removedItem = obj;
+        return false;
+      }
 
-        return true;
-      });
+      return true;
+    });
 
     return removedItem;
   }
 
   public removeAll(predicate: Partial<T>): T[] {
-    let removedItems: T[] = [];
+    const removedItems: T[] = [];
     this.collection = this.collection.filter((obj) => {
       if (match(obj, predicate)) {
         removedItems.push(obj);
@@ -96,4 +89,3 @@ export class MemoryCollection<T extends MemoryCollectionID> {
     return removedItems;
   }
 }
-

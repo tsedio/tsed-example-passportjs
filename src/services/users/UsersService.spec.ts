@@ -1,11 +1,13 @@
-import {expect} from "chai";
-import {UsersService} from "./UsersService";
+import { UsersService } from "./UsersService";
 import { PlatformTest } from "@tsed/common";
 
 describe("UsersService", () => {
-  it("should return calendar by ID", PlatformTest.inject([UsersService], (usersService: UsersService) => {
-    const item = usersService.findOne({});
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
+  it("should return calendar by ID", () => {
+    const service = PlatformTest.get<UsersService>(UsersService);
+    const item = service.findOne({});
 
-    expect(usersService.findById(item._id)).to.deep.eq(item);
-  }));
+    expect(service.findById(item!._id)).toEqual(item);
+  });
 });
