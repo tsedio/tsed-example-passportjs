@@ -1,5 +1,5 @@
-import {Format, Property, CollectionOf} from "@tsed/schema";
-import {Task} from "./Task";
+import { Format, Property, CollectionOf } from "@tsed/schema";
+import { Task } from "./Task";
 
 export class EventCreation {
   @Format("date-time")

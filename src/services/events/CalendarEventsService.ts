@@ -1,6 +1,6 @@
-import {Service} from "@tsed/common";
-import {Event} from "../../models/Event";
-import {MemoryCollection} from "../../utils/MemoryCollection";
+import { Service } from "@tsed/common";
+import { Event } from "../../models/Event";
+import { MemoryCollection } from "../../utils/MemoryCollection";
 
 @Service()
 export class CalendarEventsService extends MemoryCollection<Event> {
@@ -9,6 +9,6 @@ export class CalendarEventsService extends MemoryCollection<Event> {
   }
 
   findById(id: string) {
-    return this.findOne({_id: id});
+    return this.findOne({ _id: id });
   }
 }

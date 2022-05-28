@@ -1,9 +1,9 @@
-import {BodyParams, Req} from "@tsed/common";
-import {OnInstall, OnVerify, Protocol} from "@tsed/passport";
-import {IStrategyOptions, Strategy} from "passport-local";
-import {Credentials} from "../models/Credentials";
-import {UsersService} from "../services/users/UsersService";
-
+import { BodyParams, Req } from "@tsed/common";
+import { OnInstall, OnVerify, Protocol } from "@tsed/passport";
+import { IStrategyOptions, Strategy } from "passport-local";
+import { Credentials } from "../models/Credentials";
+import { UsersService } from "../services/users/UsersService";
+import { Inject } from "@tsed/di";
 
 @Protocol<IStrategyOptions>({
   name: "login",
@@ -14,13 +14,13 @@ import {UsersService} from "../services/users/UsersService";
   }
 })
 export class LoginLocalProtocol implements OnVerify, OnInstall {
-  constructor(private usersService: UsersService) {
-  }
+  @Inject()
+  private usersService: UsersService;
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
-    const {email, password} = credentials;
+    const { email, password } = credentials;
 
-    const user = await this.usersService.findOne({email});
+    const user = await this.usersService.findOne({ email });
 
     if (!user) {
       return false;
@@ -35,6 +35,7 @@ export class LoginLocalProtocol implements OnVerify, OnInstall {
     return user;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   $onInstall(strategy: Strategy): void {
     // intercept the strategy instance to adding extra configuration
   }

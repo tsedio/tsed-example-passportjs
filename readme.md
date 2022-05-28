@@ -17,13 +17,14 @@
 
    <h1>Ts.ED - Passport.js example</h1>
 
-  <a href="https://tsed.io/">Website</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://tsed.io/getting-started.html">Getting started</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
-  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-  <a href="https://twitter.com/TsED_io">Twitter</a>
+<a href="https://tsed.io/">Website</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://tsed.io/getting-started.html">Getting started</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+<span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+<a href="https://twitter.com/TsED_io">Twitter</a>
+
 </div>
 
 <hr />
@@ -65,7 +66,6 @@ You can make a PR directly on https://github.com/TypedProject/ts-express-decorat
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
 
 ## Sponsors
 
