@@ -64,7 +64,7 @@
     "@tsed/cli-plugin-eslint": "3.20.8",
     "@tsed/cli-plugin-jest": "3.20.8",
     "@tsed/cli-plugin-mongoose": "3.20.8",
-    "@tsed/cli-plugin-passport": "3.20.8",
+    "@tsed/cli-plugin-passport": "3.20.17",
     "@tsed/testing-mongoose": "^6.114.14",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.2",
