@@ -61,7 +61,7 @@
     "passport-http": "^0.3.0"
   },
   "devDependencies": {
-    "@tsed/cli-plugin-eslint": "3.20.8",
+    "@tsed/cli-plugin-eslint": "3.21.0",
     "@tsed/cli-plugin-jest": "3.20.8",
     "@tsed/cli-plugin-mongoose": "3.20.8",
     "@tsed/cli-plugin-passport": "3.20.8",
