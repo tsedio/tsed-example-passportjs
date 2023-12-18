@@ -42,7 +42,7 @@
     "@tsed/swagger": "7.52.0",
     "ajv": "^8.11.0",
     "barrelsby": "^2.3.4",
-    "body-parser": "^1.20.0",
+    "body-parser": "^1.20.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
