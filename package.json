@@ -41,7 +41,7 @@
     "@tsed/schema": "7.52.0",
     "@tsed/swagger": "7.52.0",
     "ajv": "^8.11.0",
-    "barrelsby": "^2.3.4",
+    "barrelsby": "^2.8.1",
     "body-parser": "^1.20.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
